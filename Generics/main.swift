@@ -48,3 +48,23 @@ swapTwoDoubles(&someDouble, &anotherDouble)
 print("someInt is now \(someDouble), and anotherInt is now \(anotherDouble)")
 
 
+//MARK: Универсальные функции
+print("\n//Универсальные функции")
+
+func swapTwoValues<T>(_ a: inout T, _ b: inout T) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+
+someInt = 3
+anotherInt = 107
+swapTwoValues(&someInt, &anotherInt)
+print(someInt, anotherInt)
+// someInt равен 107, а anotherInt равен 3
+ 
+var someString1 = "hello"
+var anotherString1 = "world"
+swapTwoValues(&someString1, &anotherString1)
+print(someString1, anotherString1)
+// someString равна "world", а anotherString равна "hello"
