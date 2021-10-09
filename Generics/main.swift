@@ -242,3 +242,14 @@ print(some1.items)
 print("\n//Расширение существующего типа для указания связанного типа")
 
 extension Array: Container {}
+
+
+//MARK: Добавление ограничений в связанный тип
+print("\n//Добавление ограничений в связанный тип")
+
+protocol Container1 {
+    associatedtype Item: Equatable
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
