@@ -68,3 +68,43 @@ var anotherString1 = "world"
 swapTwoValues(&someString1, &anotherString1)
 print(someString1, anotherString1)
 // someString равна "world", а anotherString равна "hello"
+
+
+//MARK: Универсальные типы
+print("\n//Универсальные типы")
+
+struct IntStack {
+    var items = [Int]()
+    mutating func push(_ item: Int) {
+        items.append(item)
+    }
+    mutating func pop() -> Int {
+        return items.removeLast()
+    }
+}
+
+struct Stack<Element> {
+    var items = [Element]()
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        return items.removeLast()
+    }
+}
+
+var stackOfStrings = Stack<String>()
+print(stackOfStrings)
+stackOfStrings.push("uno")
+print(stackOfStrings)
+stackOfStrings.push("dos")
+print(stackOfStrings)
+stackOfStrings.push("tres")
+print(stackOfStrings)
+stackOfStrings.push("cuatro")
+print(stackOfStrings)
+// stack содержит 4 строки
+
+let fromTheTop = stackOfStrings.pop()
+print(stackOfStrings)
+// fromTheTop равен "cuatro", а stack содержит 3 строки
