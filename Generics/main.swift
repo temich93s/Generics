@@ -158,3 +158,81 @@ print(doubleIndex as Any)
 let stringIndex = findIndex(of: "Andrea", in: ["Mike", "Malcolm", "Andrea"])
 print(stringIndex as Any)
 // stringIndex опциональный Int равный 2
+
+
+//MARK: Связанные типы в действии
+print("\n//Связанные типы в действии")
+
+protocol Container {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+
+struct IntStack1: Container {
+    // исходная реализация IntStack
+    var items = [Int]()
+    mutating func push(_ item: Int) {
+        items.append(item)
+    }
+    mutating func pop() -> Int {
+        return items.removeLast()
+    }
+    // удовлетворение требований протокола Container
+    typealias Item = Int
+    mutating func append(_ item: Int) {
+        self.push(item)
+    }
+    var count: Int {
+        return items.count
+    }
+    subscript(i: Int) -> Int {
+        return items[i]
+    }
+}
+
+var some = IntStack1()
+print(some)
+some.append(1)
+some.append(12)
+print(some)
+some.push(14)
+print(some)
+print(some.pop())
+print(some)
+print(some[1])
+print(some.items)
+
+struct Stack1<Element>: Container {
+    // исходная реализация Stack<Element>
+    var items = [Element]()
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        return items.removeLast()
+    }
+    // удовлетворение требований протокола Container
+    mutating func append(_ item: Element) {
+        self.push(item)
+    }
+    var count: Int {
+        return items.count
+    }
+    subscript(i: Int) -> Element {
+        return items[i]
+    }
+}
+
+var some1 = Stack1<String>()
+print(some1)
+some1.append("+3")
+some1.append("+13")
+print(some1)
+some1.push("+16")
+print(some1)
+print(some1.pop())
+print(some1)
+print(some1[1])
+print(some1.items)
