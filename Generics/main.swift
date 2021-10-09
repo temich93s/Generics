@@ -253,3 +253,64 @@ protocol Container1 {
     var count: Int { get }
     subscript(i: Int) -> Item { get }
 }
+
+
+//MARK: Использование протокола в ограничениях связанного типа
+print("\n//Использование протокола в ограничениях связанного типа")
+
+struct Stack2: Container2 {
+    // исходная реализация IntStack
+    var items = [Int]()
+    mutating func push(_ item: Int) {
+        items.append(item)
+    }
+    mutating func pop() -> Int {
+        return items.removeLast()
+    }
+    // удовлетворение требований протокола Container
+    typealias Item = Int
+    mutating func append(_ item: Int) {
+        self.push(item)
+    }
+    var count: Int {
+        return items.count
+    }
+    subscript(i: Int) -> Int {
+        return items[i]
+    }
+}
+
+protocol Container2 {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+
+protocol SuffixableContainer2: Container2 {
+    associatedtype Suffix: SuffixableContainer2 where Suffix.Item == Item
+    func suffix(_ size: Int) -> Suffix
+}
+
+extension Stack2: SuffixableContainer2 {
+    func suffix(_ size: Int) -> Stack2 {
+        var result = Stack2()
+        for index in (count-size)..<count {
+            result.append(self[index])
+        }
+        return result
+    }
+    // Определено, что Suffix является Stack.
+}
+var stackOfInts = Stack2()
+stackOfInts.append(10)
+stackOfInts.append(20)
+stackOfInts.append(30)
+print(stackOfInts)
+
+var suffix = stackOfInts.suffix(2)
+// suffix содержит 20 и 30
+print(suffix)
+
+stackOfInts.items.append(40)
+print(stackOfInts)
