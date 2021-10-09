@@ -435,3 +435,25 @@ extension Container3 where Item == Double {
 }
 print([1260.0, 1200.0, 98.6, 37.0].average())
 // Выведет "648.9"
+
+
+//MARK: Контекстуальная оговорка Where
+print("\n//Контекстуальная оговорка Where")
+
+extension Container3 {
+    func average() -> Double where Item == Int {
+        var sum = 0.0
+        for index in 0..<count {
+            sum += Double(self[index])
+        }
+        return sum / Double(count)
+    }
+    func endsWith(_ item: Item) -> Bool where Item: Equatable {
+        return count >= 1 && self[count-1] == item
+    }
+}
+let numbers = [1260, 1200, 98, 37]
+print(numbers.average())
+// Выведет "648.75"
+print(numbers.endsWith(37))
+// Выведет "true"
