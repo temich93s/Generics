@@ -108,3 +108,18 @@ print(stackOfStrings)
 let fromTheTop = stackOfStrings.pop()
 print(stackOfStrings)
 // fromTheTop равен "cuatro", а stack содержит 3 строки
+
+
+//MARK: Расширяем универсальный тип
+print("\n//Расширяем универсальный тип")
+
+extension Stack {
+    var topItem: Element? {
+        return items.isEmpty ? nil : items[items.count - 1]
+    }
+}
+
+if let topItem = stackOfStrings.topItem {
+    print("The top item on the stack is: \(topItem).")
+}
+// Выведет "The top item on the stack is tres."
