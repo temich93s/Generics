@@ -236,3 +236,9 @@ print(some1.pop())
 print(some1)
 print(some1[1])
 print(some1.items)
+
+
+//MARK: Расширение существующего типа для указания связанного типа
+print("\n//Расширение существующего типа для указания связанного типа")
+
+extension Array: Container {}
