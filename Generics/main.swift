@@ -385,3 +385,53 @@ if allItemsMatch(stackOfStrings3, arrayOfStrings3) {
 }
 // Выведет "All items match."
 
+
+//MARK: Расширения с оговоркой where
+print("\n//Расширения с оговоркой where")
+
+extension Stack3 where Element: Equatable {
+    func isTop(_ item: Element) -> Bool {
+        guard let topItem = items.last else {
+            return false
+        }
+        return topItem == item
+    }
+}
+
+if stackOfStrings3.isTop("tres") {
+    print("Top element is tres.")
+} else {
+    print("Top element is something else.")
+}
+// Выведет "Top element is tres."
+
+struct NotEquatable { }
+var notEquatableStack = Stack<NotEquatable>()
+let notEquatableValue = NotEquatable()
+notEquatableStack.push(notEquatableValue)
+//notEquatableStack.isTop(notEquatableValue)  // Error
+
+extension Container3 where Item: Equatable {
+    func startsWith(_ item: Item) -> Bool {
+        return count >= 1 && self[0] == item
+    }
+}
+
+if [9, 9, 9].startsWith(42) {
+    print("Starts with 42.")
+} else {
+    print("Starts with something else.")
+}
+// Выведет "Starts with something else."
+
+extension Container3 where Item == Double {
+    func average() -> Double {
+        var sum = 0.0
+        for index in 0..<count {
+            sum += self[index]
+        }
+        return sum / Double(count)
+    }
+}
+print([1260.0, 1200.0, 98.6, 37.0].average())
+// Выведет "648.9"
