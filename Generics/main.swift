@@ -314,3 +314,74 @@ print(suffix)
 
 stackOfInts.items.append(40)
 print(stackOfInts)
+
+
+//MARK: Оговорка where
+print("\n//Оговорка where")
+
+protocol Container3 {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+
+struct Stack3<Element>: Container3 {
+    // исходная реализация Stack<Element>
+    var items = [Element]()
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        return items.removeLast()
+    }
+    // удовлетворение требований протокола Container
+    mutating func append(_ item: Element) {
+        self.push(item)
+    }
+    var count: Int {
+        return items.count
+    }
+    subscript(i: Int) -> Element {
+        return items[i]
+    }
+}
+
+extension Array: Container3 {}
+
+func allItemsMatch<C1: Container3, C2: Container3>(_ someContainer: C1, _ anotherContainer: C2) -> Bool
+    where C1.Item == C2.Item, C1.Item: Equatable {
+        
+        // Проверяем одинаковое ли количество элементов находится в контейнерах.
+        if someContainer.count != anotherContainer.count {
+            return false
+        }
+        
+        // Проверяем все ли значения попарно равны.
+        for i in 0..<someContainer.count {
+            if someContainer[i] != anotherContainer[i] {
+                return false
+            }
+        }
+        
+        // Все элементы совпадают, так что возвращаем true.
+        return true
+}
+
+var stackOfStrings3 = Stack3<String>()
+stackOfStrings3.push("uno")
+stackOfStrings3.push("dos")
+stackOfStrings3.push("tres")
+ 
+var arrayOfStrings3 = ["uno", "dos", "tres"]
+
+print(stackOfStrings3.self)
+print(arrayOfStrings3.self)
+ 
+if allItemsMatch(stackOfStrings3, arrayOfStrings3) {
+    print("All items match.")
+} else {
+    print("Not all items match.")
+}
+// Выведет "All items match."
+
