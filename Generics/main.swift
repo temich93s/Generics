@@ -457,3 +457,20 @@ print(numbers.average())
 // Выведет "648.75"
 print(numbers.endsWith(37))
 // Выведет "true"
+
+
+//MARK: Связанные типы с универсальной оговоркой where
+print("\n//Связанные типы с универсальной оговоркой where")
+
+protocol Container4 {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+    
+    associatedtype Iterator: IteratorProtocol where Iterator.Element == Item
+    func makeIterator() -> Iterator
+}
+
+protocol ComparableContainer: Container4 where Item: Comparable { }
+
