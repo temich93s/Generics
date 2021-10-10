@@ -474,3 +474,20 @@ protocol Container4 {
 
 protocol ComparableContainer: Container4 where Item: Comparable { }
 
+//MARK: Универсальные сабскрипты
+print("\n//Универсальные сабскрипты")
+
+extension Container3 {
+    subscript<Indices: Sequence>(indices: Indices) -> [Item]
+        where Indices.Iterator.Element == Int {
+            var result = [Item]()
+            for index in indices {
+                result.append(self[index])
+            }
+            return result
+    }
+}
+
+print(stackOfStrings3)
+print(stackOfStrings3.items[1])
+print(stackOfStrings3[1])
